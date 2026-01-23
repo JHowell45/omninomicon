@@ -1,0 +1,45 @@
+services:
+  db:
+    image: postgres:18.1
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    volumes:
+      - omninomicon-data:/var/lib/postgresql/data/pgdata
+      - ./scripts/docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+    env_file:
+      - .env
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_USER=${DB_USER?env not set}
+      - POSTGRES_PASSWORD=${DB_PASSWORD?env not set}
+      - POSTGRES_DB=${DB_NAME?env not set}
+    ports:
+      - "5432:5432"
+    networks:
+      - omninomicon-network
+  vector-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./omninomicon
+          target: /api/omninomicon
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+    env_file:
+      - .env
+    networks:
+      - omninomicon-network
+volumes:
+  omninomicon-data:
+networks:
+  omninomicon-network:

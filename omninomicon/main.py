@@ -1,7 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 
-app = FastAPI(title="Omniomicon")
+app = FastAPI(title="Omninomicon")
 
 
 if __name__ == "__main__":
