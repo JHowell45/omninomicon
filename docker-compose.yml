@@ -34,6 +34,8 @@ services:
         - action: rebuild
           path: ./uv.lock
           target: /api/uv.lock
+    volumes:
+      - ./migrations:/app/migrations
     depends_on:
       db:
         condition: service_healthy
