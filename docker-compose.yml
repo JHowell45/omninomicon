@@ -31,12 +31,16 @@ services:
         - action: sync+restart
           path: ./omninomicon
           target: /api/omninomicon
+    volumes:
+      - ./omninomicon:/app/omninomicon
     depends_on:
       db:
         condition: service_healthy
         restart: true
     env_file:
       - .env
+    ports:
+      - "80:80"
     networks:
       - omninomicon-network
 volumes:

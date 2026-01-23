@@ -13,8 +13,8 @@ COPY --from=ghcr.io/astral-sh/uv:0.9.2 /uv /uvx /bin/
 ENV PATH="/app/.venv/bin:$PATH"
 
 COPY ./pyproject.toml ./uv.lock /app/
-COPY omniomicon /app/omniomicon
+COPY ./omninomicon /app/omninomicon
 
 RUN uv sync --frozen --no-cache
 
-CMD ["uv", "run", "main.py"]
+CMD ["uv", "run", "/app/omninomicon/main.py"]
