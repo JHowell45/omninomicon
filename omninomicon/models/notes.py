@@ -11,3 +11,7 @@ class NoteBase(SQLModel):
 
 class Note(NoteBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
+
+
+class NotePublic(NoteBase):
+    id: int
