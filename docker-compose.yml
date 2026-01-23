@@ -31,8 +31,6 @@ services:
         - action: sync+restart
           path: ./omninomicon
           target: /api/omninomicon
-    volumes:
-      - ./omninomicon:/app/omninomicon
     depends_on:
       db:
         condition: service_healthy

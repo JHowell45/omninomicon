@@ -1,10 +1,10 @@
 import uvicorn
 from fastapi import FastAPI
 
-from .routers import router
+from omninomicon import routers
 
 app = FastAPI(title="Omninomicon")
-app.include_router(router)
+app.include_router(routers.router)
 
 
 if __name__ == "__main__":
