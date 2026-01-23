@@ -31,6 +31,9 @@ services:
         - action: sync+restart
           path: ./omninomicon
           target: /api/omninomicon
+        - action: rebuild
+          path: ./uv.lock
+          target: /api/uv.lock
     depends_on:
       db:
         condition: service_healthy
