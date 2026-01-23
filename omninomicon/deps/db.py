@@ -5,9 +5,9 @@ from sqlmodel import Session, create_engine
 
 from .config import Settings, get_settings
 
-setting: Settings = get_settings()
+settings: Settings = get_settings()
 
-engine = create_engine(str(settings))
+engine = create_engine(str(settings.DATABASE_URI))
 
 
 def get_session() -> Generator[Session]:

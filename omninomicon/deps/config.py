@@ -1,3 +1,4 @@
+from pydantic import PostgresDsn, computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -12,6 +13,18 @@ class Settings(BaseSettings):
     DB_USER: str
     DB_PASSWORD: str
     DB_NAME: str
+
+    @computed_field
+    @property
+    def DATABASE_URI(self) -> PostgresDsn:
+        return PostgresDsn.build(
+            scheme="postgresql+psycopg",
+            host=self.DB_HOST,
+            port=self.DB_PORT,
+            username=self.DB_USER,
+            password=self.DB_PASSWORD,
+            path=self.DB_NAME,
+        )
 
 
 def get_settings() -> Settings:
