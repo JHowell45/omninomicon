@@ -26,6 +26,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     uv sync --locked --no-install-project
 
+COPY ./alembic.ini /app/
 COPY ./omninomicon /app/omninomicon
 
 # Sync the project
