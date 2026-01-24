@@ -16,8 +16,11 @@ def read_notes(session: SessionDep) -> Sequence[Note]:
 
 
 @router.post("/search", response_model=list[NotePublic])
-def search_notes(session: SessionDep) -> Sequence[Note]:
-    return []
+def search_notes(session: SessionDep, query: str, limit: int = 100) -> Sequence[Note]:
+    query_embedding: list[float] = create_embedding(query).tolist()
+    return session.exec(
+        select(Note).order_by(Note.embedding.l2_distance(query_embedding)).limit(limit)
+    ).all()
 
 
 @router.post("/", response_model=NotePublic)
